@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/api";
+const BASE_URL = "https://sportygame.onrender.com/api/";
 
 async function getAllMatches() {
   const url = `${BASE_URL}/matches`;
