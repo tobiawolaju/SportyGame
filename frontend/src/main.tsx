@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <PrivyProvider
-      appId="cmef0aah700lsl70bie6i68i6"
+      appId={import.meta.env.VITE_PRIVY_APP_ID}
       config={{
         appearance: { theme: "dark" },
         embeddedWallets: { createOnLogin: "all-users" },
