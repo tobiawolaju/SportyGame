@@ -159,7 +159,7 @@
     <h3>Matches Endpoints</h3>
     <div class="endpoint">
         <h4>List All Matches</h4>
-        <p><span class="method get">GET</span><code>/exec?query=matches</code></p>
+        <p><span class="method get">GET</span><code>/matches</code></p>
         <p>Retrieves a list of all match objects. The <code>lobby_code</code> field is omitted from the response.</p>
         <h4>Example Success Response:</h4>
         <pre><code>[
@@ -182,7 +182,7 @@
 
     <div class="endpoint">
         <h4>Create a New Match</h4>
-        <p><span class="method post">POST</span><code>/exec?query=matches</code></p>
+        <p><span class="method post">POST</span><code>/matches</code></p>
         <p>Creates a new match record. The <code>match_id</code> is generated automatically by the server.</p>
         <h4>Example Request Body:</h4>
         <pre><code>{
@@ -215,7 +215,7 @@
     <h3>Users Endpoints</h3>
     <div class="endpoint">
         <h4>List All Users</h4>
-        <p><span class="method get">GET</span><code>/exec?query=users</code></p>
+        <p><span class="method get">GET</span><code>/users</code></p>
         <p>Retrieves a list of all user objects from the sheet.</p>
         <h4>Example Success Response:</h4>
         <pre><code>[
@@ -238,7 +238,7 @@
 
     <div class="endpoint">
         <h4>Create a New User</h4>
-        <p><span class="method post">POST</span><code>/exec?query=users</code></p>
+        <p><span class="method post">POST</span><code>/users</code></p>
         <p>Creates a new user record. <code>created_at</code> and <code>last_seen_at</code> are set automatically.</p>
         <h4>Example Request Body:</h4>
         <pre><code>{
@@ -266,7 +266,7 @@
     <h3>Entries Endpoints</h3>
     <div class="endpoint">
         <h4>Join a Match</h4>
-        <p><span class="method post">POST</span><code>/exec?query=join</code></p>
+        <p><span class="method post">POST</span><code>/join</code></p>
         <p>Creates an entry for a user in a specific match. The server generates <code>entry_id</code>, <code>joined_at</code>, and sets defaults for <code>checked_in</code> and <code>result</code>.</p>
         <h4>Example Request Body:</h4>
         <pre><code>{
@@ -290,7 +290,7 @@
 
     <div class="endpoint">
         <h4>Check In to a Match</h4>
-        <p><span class="method post">POST</span><code>/exec?query=checkin</code></p>
+        <p><span class="method post">POST</span><code>/checkin</code></p>
         <p>Marks a user's entry for a match as "checked in".</p>
         <h4>Example Request Body:</h4>
         <pre><code>{
@@ -316,7 +316,7 @@
     <h3>Financial Endpoints</h3>
     <div class="endpoint">
         <h4>Record a Payment</h4>
-        <p><span class="method post">POST</span><code>/exec?query=payment</code></p>
+        <p><span class="method post">POST</span><code>/payment</code></p>
         <p>Records an incoming payment transaction into the payments sheet.</p>
         <h4>Example Request Body:</h4>
         <pre><code>{
@@ -347,7 +347,7 @@
 
     <div class="endpoint">
         <h4>Record a Payout</h4>
-        <p><span class="method post">POST</span><code>/exec?query=payout</code></p>
+        <p><span class="method post">POST</span><code>/payout</code></p>
         <p>Records a prize payout transaction. The <code>payout_id</code> is generated automatically.</p>
         <h4>Example Request Body:</h4>
         <pre><code>{
