@@ -1,13 +1,13 @@
-const BASE_URL = "https://script.google.com/macros/s/AKfycbwc3a83MfJncYiD4xUyn_CKTbRTm6RegDjKY84jKgDGuXq4QmCE5pmopV-e0T88OcCdFg/exec";
+const BASE_URL = "http://localhost:3000/api";
 
 async function getAllMatches() {
-  const url = `${BASE_URL}?query=matches`;
+  const url = `${BASE_URL}/matches`;
   const res = await fetch(url);
   return res.json();
 }
 
 async function joinMatch(wallet, matchId) {
-  const url = `${BASE_URL}?query=join`;
+  const url = `${BASE_URL}/join`;
   const res = await fetch(url, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
