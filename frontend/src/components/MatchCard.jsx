@@ -37,7 +37,7 @@ export default function MatchCard({ match, onJoin }) {
       {/* Logo + Match Info */}
       <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
         <img
-          src="/logo2.png"
+          src="/pubg.jpg"
           alt="Logo"
           style={{ width: "50px", height: "50px", borderRadius: "50%" }}
         />
