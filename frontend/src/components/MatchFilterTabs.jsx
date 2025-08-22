@@ -11,7 +11,7 @@ export default function MatchFilterTabs({ active, onChange }) {
         justifyContent: "center", // center the tabs
         gap: "1rem",
         marginBottom: "1rem",
-        backgroundColor: "#f3f3f3", // light background
+        backgroundColor: "#ffe60043", // light background
         padding: "0.5rem 0",
         borderRadius: "25px",
       }}
@@ -25,8 +25,8 @@ export default function MatchFilterTabs({ active, onChange }) {
             borderRadius: "20px",
             border: "none",
             cursor: "pointer",
-            backgroundColor: active === tab.toLowerCase() ? "#8a2be2" : "#e7e7e7",
-            color: active === tab.toLowerCase() ? "#fff" : "#000",
+            backgroundColor: active === tab.toLowerCase() ? "#ffe81cff" : "#ffe6003c",
+            color: active === tab.toLowerCase() ? "#000000ff" : "#00000098",
             fontWeight: "bold",
             transition: "0.2s",
           }}
@@ -37,3 +37,4 @@ export default function MatchFilterTabs({ active, onChange }) {
     </div>
   );
 }
+
