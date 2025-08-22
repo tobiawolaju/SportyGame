@@ -11,7 +11,6 @@ export default function Profile() {
   const wallet = user?.wallet?.address?.toLowerCase();
 
   const [me, setMe] = useState(null);
-  const [entries, setEntries] = useState([]);
   const [balance, setBalance] = useState(0);
   const [exportedKey, setExportedKey] = useState(null);
 
@@ -23,26 +22,11 @@ export default function Profile() {
         const allUsers = await api.getUsers();
         const meData = allUsers.find((u) => u.wallet.toLowerCase() === wallet);
         setMe(meData || { wallet });
-
-        const allMatches = await api.getMatches();
-        const myEntries = allMatches
-          .filter((m) => m.entries?.some((e) => e.wallet.toLowerCase() === wallet))
-          .map((m) => ({
-            match_id: m.match_id,
-            match_title: m.title,
-            game: m.game,
-            mode: m.mode,
-            region: m.region,
-            result: "pending",
-          }));
-        setEntries(myEntries);
-
         if (meData?.balance != null) setBalance(meData.balance);
       } catch (err) {
         console.error("Profile fetch error:", err);
       }
     }
-
     fetchData();
   }, [wallet]);
 
@@ -63,76 +47,114 @@ export default function Profile() {
   if (!me) return <Loading message="Loading profile..." />;
 
   return (
-    <div style={{ padding: "1.5rem", maxWidth: "900px", margin: "0 auto", fontFamily: "'Orbitron', sans-serif" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-        <h2>Profile</h2>
+    <div
+      style={{
+        padding: "2rem 1rem",
+        maxWidth: "800px",
+        margin: "0 auto",
+        fontFamily: "'Inter', sans-serif",
+      }}
+    >
+      {/* header */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "2rem",
+        }}
+      >
+        <h1 style={{ fontSize: "1.75rem", fontWeight: 700 }}>My Profile</h1>
         <LogoutButton />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem", marginBottom: "2rem" }}>
+      {/* game usernames */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: "1rem",
+          marginBottom: "2rem",
+        }}
+      >
         {gameList.map((game) => (
-          <div key={game} style={{ padding: "1rem", border: "1px solid #ddd", borderRadius: "12px" }}>
-            <h4>{game} Username</h4>
-            <p>{me[game.toLowerCase()] || "Not set"}</p>
+          <div
+            key={game}
+            style={{
+              padding: "1rem",
+              borderRadius: "12px",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+              background: "#fff",
+            }}
+          >
+            <h4 style={{ margin: "0 0 0.5rem", fontWeight: 600 }}>{game} Username</h4>
+            <p style={{ margin: 0, color: "#374151" }}>
+              {me[game.toLowerCase()] || "Not set"}
+            </p>
           </div>
         ))}
       </div>
 
-      <div style={{ marginBottom: "1.5rem" }}>
-        <p><strong>Wallet:</strong> {wallet}</p>
-        <p><strong>Balance:</strong> {balance} USDT</p>
-        <p>
+      {/* wallet + sub info */}
+      <div
+        style={{
+          padding: "1.5rem",
+          borderRadius: "12px",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+          background: "#fff",
+          marginBottom: "2rem",
+        }}
+      >
+  <p style={{ 
+  margin: "0 0 0.5rem", 
+  wordBreak: "break-all", 
+  overflowWrap: "anywhere" 
+}}>
+  <strong>Wallet:</strong> {wallet}
+</p>
+
+        <p style={{ margin: "0 0 0.5rem" }}>
+          <strong>Balance:</strong> {balance} USDT
+        </p>
+        <p style={{ margin: "0 0 1rem" }}>
           <strong>Subscription:</strong>{" "}
-          {me.pass_expires_at ? `Active until ${new Date(me.pass_expires_at).toLocaleString()}` : "No active pass"}
+          {me.pass_expires_at
+            ? `Active until ${new Date(me.pass_expires_at).toLocaleDateString()}`
+            : "No active pass"}
         </p>
         <button
           onClick={handleExportWallet}
           style={{
-            marginTop: "1rem",
-            padding: "0.5rem 1rem",
+            padding: "0.6rem 1.25rem",
             borderRadius: "8px",
             border: "none",
             background: "#111827",
             color: "#fff",
+            fontWeight: 600,
             cursor: "pointer",
+            transition: "background 0.2s ease",
           }}
+          onMouseOver={(e) => (e.currentTarget.style.background = "#1f2937")}
+          onMouseOut={(e) => (e.currentTarget.style.background = "#111827")}
         >
           Export Wallet
         </button>
         {exportedKey && (
-          <div style={{ marginTop: "1rem", wordBreak: "break-all" }}>
+          <div
+            style={{
+              marginTop: "1rem",
+              padding: "0.75rem",
+              borderRadius: "8px",
+              background: "#f9fafb",
+              fontFamily: "monospace",
+              fontSize: "0.875rem",
+              wordBreak: "break-all",
+            }}
+          >
             <strong>Private Key:</strong> {exportedKey}
           </div>
         )}
       </div>
-
-      <h3>My Matches</h3>
-      {entries.length === 0 ? (
-        <p>No matches joined yet</p>
-      ) : (
-        <div style={{ display: "grid", gap: "1rem" }}>
-          {entries.map((e) => (
-            <div
-              key={e.match_id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "1rem",
-                borderRadius: "12px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                background: "#fff",
-              }}
-            >
-              <div>
-                <h4 style={{ margin: 0 }}>{e.match_title}</h4>
-                <small>{e.game} • {e.mode} • {e.region}</small>
-              </div>
-              <span style={{ fontWeight: "bold" }}>{e.result}</span>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
