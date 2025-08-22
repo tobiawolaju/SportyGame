@@ -50,69 +50,64 @@ export default function Layout() {
         </h3>
       </header>
 
-      {/* footer nav bar */}
-      <footer
-        style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "3.5rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "2rem",
-          background: "#fff",
-          color: "#a9a9a9",
-          boxShadow: "0 -2px 4px rgba(0,0,0,0.06)",
-          zIndex: 1000,
-        }}
-      >
-        <nav style={{ display: "flex", gap: "5rem" }}>
+      {/* footer nav bar - only visible if authenticated */}
       {authenticated && (
-  <NavLink
-    to="/"
-    style={({ isActive }) => ({
-      ...baseStyle,
-      color: isActive ? "#000" : "#a9a9a9",
-    })}
-  >
-    {({ isActive }) => (
-      <>
-        <Gamepad2
-          size={25}
-          strokeWidth={isActive ? 3 : 2}
-          color={isActive ? "black" : "#a9a9a9"}
-        />
-        <span>Sports</span>
-      </>
-    )}
-  </NavLink>
-)}
+        <footer
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: "3.5rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "2rem",
+            background: "#fff",
+            color: "#a9a9a9",
+            boxShadow: "0 -2px 4px rgba(0,0,0,0.06)",
+            zIndex: 1000,
+          }}
+        >
+          <nav style={{ display: "flex", gap: "5rem" }}>
+            <NavLink
+              to="/"
+              style={({ isActive }) => ({
+                ...baseStyle,
+                color: isActive ? "#000" : "#a9a9a9",
+              })}
+            >
+              {({ isActive }) => (
+                <>
+                  <Gamepad2
+                    size={25}
+                    strokeWidth={isActive ? 3 : 2}
+                    color={isActive ? "black" : "#a9a9a9"}
+                  />
+                  <span>Sports</span>
+                </>
+              )}
+            </NavLink>
 
-{authenticated && (
-  <NavLink
-    to="/leaderboard"
-    style={({ isActive }) => ({
-      ...baseStyle,
-      color: isActive ? "#000" : "#a9a9a9",
-    })}
-  >
-    {({ isActive }) => (
-      <>
-        <Trophy
-          size={25}
-          strokeWidth={isActive ? 3 : 2}
-          color={isActive ? "black" : "#a9a9a9"}
-        />
-        <span>Results</span>
-      </>
-    )}
-  </NavLink>
-)}
+            <NavLink
+              to="/leaderboard"
+              style={({ isActive }) => ({
+                ...baseStyle,
+                color: isActive ? "#000" : "#a9a9a9",
+              })}
+            >
+              {({ isActive }) => (
+                <>
+                  <Trophy
+                    size={25}
+                    strokeWidth={isActive ? 3 : 2}
+                    color={isActive ? "black" : "#a9a9a9"}
+                  />
+                  <span>Results</span>
+                </>
+              )}
+            </NavLink>
 
-
- {authenticated && (
             <NavLink
               to="/profile"
               style={({ isActive }) => ({
@@ -122,32 +117,39 @@ export default function Layout() {
             >
               {({ isActive }) => (
                 <>
-                  <User size={25} strokeWidth={isActive ? 3 : 2} color={isActive ? "black" : "#a9a9a9"} />
+                  <User
+                    size={25}
+                    strokeWidth={isActive ? 3 : 2}
+                    color={isActive ? "black" : "#a9a9a9"}
+                  />
                   <span>Me</span>
                 </>
               )}
             </NavLink>
-          )}
 
-
-          {isAdmin && (
-            <NavLink
-              to="/admin"
-              style={({ isActive }) => ({
-                ...baseStyle,
-                color: isActive ? "#000" : "#a9a9a9",
-              })}
-            >
-              {({ isActive }) => (
-                <>
-                  <Shield size={25} strokeWidth={isActive ? 3 : 2} color={isActive ? "black" : "#a9a9a9"} />
-                  <span>Admin</span>
-                </>
-              )}
-            </NavLink>
-          )}
-        </nav>
-      </footer>
+            {isAdmin && (
+              <NavLink
+                to="/admin"
+                style={({ isActive }) => ({
+                  ...baseStyle,
+                  color: isActive ? "#000" : "#a9a9a9",
+                })}
+              >
+                {({ isActive }) => (
+                  <>
+                    <Shield
+                      size={25}
+                      strokeWidth={isActive ? 3 : 2}
+                      color={isActive ? "black" : "#a9a9a9"}
+                    />
+                    <span>Admin</span>
+                  </>
+                )}
+              </NavLink>
+            )}
+          </nav>
+        </footer>
+      )}
     </div>
   );
 }
