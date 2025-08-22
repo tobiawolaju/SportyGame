@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import MatchCard from "../components/MatchCard";
 import Loading from "../components/Loading";
-import { Link } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
 import LoginButton from "../components/LoginButton";
 import LogoutButton from "../components/LogoutButton";
@@ -13,48 +12,89 @@ export default function Landing() {
   const { authenticated } = usePrivy();
 
   useEffect(() => {
-    async function fetchMatches() {
-      const data = await api.getMatches();
-      setMatches(data);
-    }
-    fetchMatches();
+    api.getMatches().then(setMatches);
   }, []);
 
-  if (matches === null) {
-    return <Loading message="Loading lobby…" />;
-  }
+  if (matches === null) return <Loading message="Loading lobby…" />;
 
   return (
     <div
       style={{
         minHeight: "100vh",
-        background: "#fff",
-        color: "#111",
-        padding: "2rem",
+        background: "#ffffff",
+        color: "#111827",
+        fontFamily: "Inter, sans-serif",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      {/* hero */}
-      <header style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-        <h1 style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>
-          SportyGame
-        </h1>
-        <p style={{ fontSize: "1.25rem", color: "#555", marginBottom: "1rem" }}>
-          PUBG scrims. Earn rewards. Monthly pass required.
+      {/* hero center screen */}
+      <header
+        style={{
+          flex: "1 0 auto",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          padding: "4rem 1rem",
+          
+        }}
+      >
+        <p
+          style={{
+            fontSize: "1.25rem",
+            color: "#4b5563",
+            marginBottom: "0.5rem",
+          }}
+        >
+          can you actually play PUBG or CODM, or are you just a…
         </p>
+        <h1
+          style={{
+            fontSize: "clamp(3rem, 8vw, 6rem)",
+            fontWeight: "800",
+            margin: 0,
+            lineHeight: 1.1,
+          }}
+        >
+          another wannabe gamer?
+        </h1>
+        <div style={{ marginTop: "2rem" }}>
+          {authenticated ? <LogoutButton /> : <LoginButton />}
+        </div>
       </header>
 
-      {/* upcoming matches */}
-      <section style={{ maxWidth: "900px", margin: "0 auto" }}>
-        <h2 style={{ marginBottom: "1rem", textAlign: "left" }}>
+      {/* matches panel */}
+      <section
+        style={{
+          flex: "0 0 auto",
+          width: "100vw",
+          maxWidth: "960px",
+          margin: "0 auto 4rem",
+          background: "#f9fafb",
+          borderRadius: "12px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h2
+          style={{
+            margin: "1.5rem",
+            marginBottom:'0.5rem',
+            fontSize: "1rem",
+            fontWeight: "600",
+            color: "#111827",
+          }}
+        >
           Upcoming Scrims
         </h2>
         {matches.length === 0 ? (
-          <p>No matches yet. Check back later.</p>
+          <p style={{ color: "#6b7280" }}>No matches yet. Check back soon.</p>
         ) : (
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
               gap: "1.5rem",
             }}
           >
@@ -63,10 +103,6 @@ export default function Landing() {
             ))}
           </div>
         )}
-        <div style={{ textAlign: "center", marginTop: "2rem" }}>
-        
-        {authenticated ? <LogoutButton /> : <LoginButton />}
-        </div>
       </section>
     </div>
   );
