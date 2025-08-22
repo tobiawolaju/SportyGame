@@ -26,7 +26,7 @@ export default function MatchFilterTabs({ active, onChange }) {
             border: "none",
             cursor: "pointer",
             backgroundColor: active === tab.toLowerCase() ? "#ffd574f1" : "#ffdc7478",
-            color: active === tab.toLowerCase() ? "#64376fff" : "#57006497",
+            color: active === tab.toLowerCase() ? "#43274aff" : "#57006497",
             fontWeight: "bold",
             transition: "0.2s",
           }}
