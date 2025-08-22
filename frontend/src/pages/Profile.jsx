@@ -3,6 +3,15 @@ import { usePrivy } from "@privy-io/react-auth";
 import { api } from "../lib/api";
 import Loading from "../components/Loading";
 import LogoutButton from "../components/LogoutButton";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const gameList = ["PUBG", "CODM", "FreeFire"];
 
@@ -16,7 +25,6 @@ export default function Profile() {
 
   useEffect(() => {
     if (!wallet) return;
-
     async function fetchData() {
       try {
         const allUsers = await api.getUsers();
@@ -46,11 +54,21 @@ export default function Profile() {
 
   if (!me) return <Loading message="Loading profile..." />;
 
+  // stats graph data
+  const statsData = [
+    { name: "Wins", value: me.wins || 0 },
+    { name: "Losses", value: me.losses || 0 },
+  ];
+  const winRate =
+    me.wins && me.losses
+      ? Math.round((me.wins / (me.wins + me.losses)) * 100)
+      : 0;
+
   return (
     <div
       style={{
         padding: "2rem 1rem",
-        maxWidth: "800px",
+        maxWidth: "900px",
         margin: "0 auto",
         fontFamily: "'Inter', sans-serif",
       }}
@@ -68,59 +86,21 @@ export default function Profile() {
         <LogoutButton />
       </div>
 
-      {/* game usernames */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "1rem",
-          marginBottom: "2rem",
-        }}
-      >
-        {gameList.map((game) => (
-          <div
-            key={game}
-            style={{
-              padding: "1rem",
-              borderRadius: "12px",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-              background: "#fff",
-            }}
-          >
-            <h4 style={{ margin: "0 0 0.5rem", fontWeight: 600 }}>{game} Username</h4>
-            <p style={{ margin: 0, color: "#374151" }}>
-              {me[game.toLowerCase()] || "Not set"}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* wallet + sub info */}
+      {/* wallet */}
       <div
         style={{
           padding: "1.5rem",
           borderRadius: "12px",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
           background: "#fff",
           marginBottom: "2rem",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
         }}
       >
-  <p style={{ 
-  margin: "0 0 0.5rem", 
-  wordBreak: "break-all", 
-  overflowWrap: "anywhere" 
-}}>
-  <strong>Wallet:</strong> {wallet}
-</p>
-
+        <p style={{ wordBreak: "break-all", margin: "0 0 0.5rem" }}>
+          <strong>Wallet:</strong> {wallet}
+        </p>
         <p style={{ margin: "0 0 0.5rem" }}>
           <strong>Balance:</strong> {balance} USDT
-        </p>
-        <p style={{ margin: "0 0 1rem" }}>
-          <strong>Subscription:</strong>{" "}
-          {me.pass_expires_at
-            ? `Active until ${new Date(me.pass_expires_at).toLocaleDateString()}`
-            : "No active pass"}
         </p>
         <button
           onClick={handleExportWallet}
@@ -132,10 +112,7 @@ export default function Profile() {
             color: "#fff",
             fontWeight: 600,
             cursor: "pointer",
-            transition: "background 0.2s ease",
           }}
-          onMouseOver={(e) => (e.currentTarget.style.background = "#1f2937")}
-          onMouseOut={(e) => (e.currentTarget.style.background = "#111827")}
         >
           Export Wallet
         </button>
@@ -154,6 +131,72 @@ export default function Profile() {
             <strong>Private Key:</strong> {exportedKey}
           </div>
         )}
+      </div>
+
+      {/* stats */}
+      <div
+        style={{
+          padding: "1.5rem",
+          borderRadius: "12px",
+          background: "#fff",
+          marginBottom: "2rem",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+        }}
+      >
+        <h3 style={{ margin: "0 0 1rem" }}>Stats</h3>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(160px,1fr))",
+            gap: "1rem",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <div><strong>Win Rate:</strong> {winRate}%</div>
+          <div><strong>Rank:</strong> {me.rank || "Unranked"}</div>
+          <div><strong>Earnings:</strong> {me.earnings || 0} USDT</div>
+        </div>
+
+        {/* bar chart wins vs losses */}
+        <div style={{ width: "100%", height: 240 }}>
+          <ResponsiveContainer>
+            <BarChart data={statsData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Bar dataKey="value" fill="#111827" radius={[6,6,0,0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* usernames */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: "1rem",
+          marginBottom: "2rem",
+        }}
+      >
+        {gameList.map((game) => (
+          <div
+            key={game}
+            style={{
+              padding: "1rem",
+              borderRadius: "12px",
+              background: "#fff",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+            }}
+          >
+            <h4 style={{ margin: "0 0 0.5rem" }}>{game} Username</h4>
+            <p style={{ margin: 0, color: "#374151" }}>
+              {me[game.toLowerCase()] || "Not set"}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
