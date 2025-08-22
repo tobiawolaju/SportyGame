@@ -46,7 +46,7 @@ export default function Landing() {
       {/* upcoming matches */}
       <section style={{ maxWidth: "900px", margin: "0 auto" }}>
         <h2 style={{ marginBottom: "1rem", textAlign: "left" }}>
-          Upcoming Matches
+          Upcoming Scrims
         </h2>
         {matches.length === 0 ? (
           <p>No matches yet. Check back later.</p>

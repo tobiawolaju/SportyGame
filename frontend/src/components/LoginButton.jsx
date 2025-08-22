@@ -11,7 +11,8 @@ export default function LoginButton() {
         backgroundColor: "#e3a0ffff",
         color: "#000000ff",
         border: "none",
-        borderRadius: "10px",
+        borderRadius: "50px",
+        fontSize:'xx-large'
       }}
     >
       Get started
