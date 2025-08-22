@@ -14,12 +14,11 @@
     "react-router-dom": "^7.8.1",
     "web-vitals": "^2.1.4"
   },
- "scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview",
-  "start": "npm run build && npm run preview"
-},
+  "scripts": {
+    "dev": "vite preview",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
