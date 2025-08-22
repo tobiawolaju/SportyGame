@@ -1,4 +1,3 @@
-// src/pages/Profile.jsx
 import { useEffect, useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { api } from "../lib/api";
@@ -14,6 +13,7 @@ export default function Profile() {
   const [me, setMe] = useState(null);
   const [entries, setEntries] = useState([]);
   const [balance, setBalance] = useState(0);
+  const [exportedKey, setExportedKey] = useState(null);
 
   useEffect(() => {
     if (!wallet) return;
@@ -37,7 +37,6 @@ export default function Profile() {
           }));
         setEntries(myEntries);
 
-        // fetch balance from API if available
         if (meData?.balance != null) setBalance(meData.balance);
       } catch (err) {
         console.error("Profile fetch error:", err);
@@ -46,6 +45,20 @@ export default function Profile() {
 
     fetchData();
   }, [wallet]);
+
+  const handleExportWallet = async () => {
+    try {
+      if (!user?.wallet?.export) {
+        alert("Export not available for this wallet");
+        return;
+      }
+      const exported = await user.wallet.export();
+      setExportedKey(exported.privateKey || JSON.stringify(exported));
+    } catch (err) {
+      console.error("Wallet export error:", err);
+      alert("Failed to export wallet");
+    }
+  };
 
   if (!me) return <Loading message="Loading profile..." />;
 
@@ -72,6 +85,25 @@ export default function Profile() {
           <strong>Subscription:</strong>{" "}
           {me.pass_expires_at ? `Active until ${new Date(me.pass_expires_at).toLocaleString()}` : "No active pass"}
         </p>
+        <button
+          onClick={handleExportWallet}
+          style={{
+            marginTop: "1rem",
+            padding: "0.5rem 1rem",
+            borderRadius: "8px",
+            border: "none",
+            background: "#111827",
+            color: "#fff",
+            cursor: "pointer",
+          }}
+        >
+          Export Wallet
+        </button>
+        {exportedKey && (
+          <div style={{ marginTop: "1rem", wordBreak: "break-all" }}>
+            <strong>Private Key:</strong> {exportedKey}
+          </div>
+        )}
       </div>
 
       <h3>My Matches</h3>
