@@ -12,7 +12,7 @@ export default function LogoutButton() {
         backgroundColor: "#f7e4ffff",
         color: "#000000ff",
         border: "none",
-        borderRadius: "100px",
+        borderRadius: "10px",
       }}
     >
       Logout

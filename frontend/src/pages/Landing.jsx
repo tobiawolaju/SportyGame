@@ -41,7 +41,6 @@ export default function Landing() {
         <p style={{ fontSize: "1.25rem", color: "#555", marginBottom: "1rem" }}>
           PUBG scrims. Earn rewards. Monthly pass required.
         </p>
-        {authenticated ? <LogoutButton /> : <LoginButton />}
       </header>
 
       {/* upcoming matches */}
@@ -65,19 +64,8 @@ export default function Landing() {
           </div>
         )}
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
-          <Link
-            to="/"
-            style={{
-              padding: "0.75rem 1.5rem",
-              background: "#111",
-              color: "#fff",
-              borderRadius: "0.5rem",
-              textDecoration: "none",
-              fontWeight: "600",
-            }}
-          >
-            View All Matches
-          </Link>
+        
+        {authenticated ? <LogoutButton /> : <LoginButton />}
         </div>
       </section>
     </div>

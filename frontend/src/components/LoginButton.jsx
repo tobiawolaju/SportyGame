@@ -11,10 +11,10 @@ export default function LoginButton() {
         backgroundColor: "#e3a0ffff",
         color: "#000000ff",
         border: "none",
-        borderRadius: "100px",
+        borderRadius: "10px",
       }}
     >
-      Log In
+      Get started
     </button>
   );
 }
