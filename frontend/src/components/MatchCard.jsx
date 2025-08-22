@@ -62,8 +62,8 @@ export default function MatchCard({ match, onJoin }) {
         onClick={handleClick}
         disabled={status === "joining" || status === "joined"}
         style={{
-          minWidth: "120px",
-          padding: "0.5rem 1rem",
+          width: "auto",
+          padding: "5px 15px",
           borderRadius: "20px",
           border: "none",
           cursor: status === "joined" ? "default" : "pointer",

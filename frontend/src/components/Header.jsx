@@ -103,7 +103,7 @@ export default function Layout() {
                     strokeWidth={isActive ? 3 : 2}
                     color={isActive ? "black" : "#a9a9a9"}
                   />
-                  <span>Results</span>
+                  <span>Scrim History</span>
                 </>
               )}
             </NavLink>
