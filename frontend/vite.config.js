@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: 'dist',
+      outDir: 'build',
       rollupOptions: {
         plugins: [
           // Enable rollup polyfills plugin
