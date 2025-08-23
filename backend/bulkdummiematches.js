@@ -38,7 +38,7 @@ async function createDummyMatches() {
           mode,
           region,
           start_time_utc: startTime.toISOString(),
-          entry_cap: 50,
+          entry_cap: 50000,
           join_deadline_utc: new Date(startTime.getTime() - 10 * 60000).toISOString(),
           status: "upcoming",
           admin_notes: "invite-only",
