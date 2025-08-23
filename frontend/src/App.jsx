@@ -6,8 +6,6 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Profile from "./pages/Profile";
 import Leaderboard from "./pages/Leaderboard";
-
-
 import Admin from "./pages/Admin";
 
 
@@ -20,9 +18,9 @@ const ADMINS = [
 function App() {
   const { ready, authenticated, user } = usePrivy();
   if (!ready) return null;
-
-  const wallet = user?.wallet?.address?.toLowerCase();
-  const isAdmin = ADMINS.includes(wallet);
+ 
+  const email = user?.google?.email.toLowerCase();
+  const isAdmin = ADMINS.includes(email);
 
   return (
     <div className="App" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
