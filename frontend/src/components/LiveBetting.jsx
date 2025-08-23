@@ -1,20 +1,25 @@
-import { api } from "../lib/api";
-import MatchCard from "./MatchCard";
+// src/components/OngoingMatches.jsx
 
-export default function Scrims({ user, matches }) {
-  const wallet = user?.wallet?.address;
+import MatchCard from "../components/MatchCard";
 
-  if (!matches) return <p>Loading bets...</p>;
 
-  async function handleJoin(matchId) {
-    await api.joinMatch(wallet, matchId);
-  }
-
-  return matches.length === 0 ? (
-    <p>No matches available</p>
-  ) : (
-    matches.map(m => (
-      <MatchCard key={m.match_id} match={m} onJoin={handleJoin} />
+export default function OngoingMatches({ matches }) {
+  return matches.length ? (
+    matches.map((m) => (
+      <div
+        key={m.match_id}
+        style={{
+          border: "1px solid #ccc",
+          padding: "1rem",
+          marginBottom: "1rem",
+          borderRadius: "8px",
+        }}
+      >
+        <h3>{m.title}</h3>
+        <p>Ongoing… live scores soon</p>
+      </div>
     ))
+  ) : (
+    <p>No ongoing matches</p>
   );
 }

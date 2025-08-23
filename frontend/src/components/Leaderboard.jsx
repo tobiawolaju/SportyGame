@@ -1,20 +1,25 @@
-import { api } from "../lib/api";
-import MatchCard from "./MatchCard";
+// src/components/EndedMatches.jsx
 
-export default function Scrims({ user, matches }) {
-  const wallet = user?.wallet?.address;
+import MatchCard from "../components/MatchCard";
 
-  if (!matches) return <p>Loading leaderboard...</p>;
 
-  async function handleJoin(matchId) {
-    await api.joinMatch(wallet, matchId);
-  }
-
-  return matches.length === 0 ? (
-    <p>No matches available</p>
-  ) : (
-    matches.map(m => (
-      <MatchCard key={m.match_id} match={m} onJoin={handleJoin} />
+export default function EndedMatches({ matches }) {
+  return matches.length ? (
+    matches.map((m) => (
+      <div
+        key={m.match_id}
+        style={{
+          border: "1px dashed #aaa",
+          padding: "1rem",
+          marginBottom: "1rem",
+          borderRadius: "8px",
+        }}
+      >
+        <h3>{m.title}</h3>
+        <p>Ended. Winners: TBD</p>
+      </div>
     ))
+  ) : (
+    <p>No ended matches</p>
   );
 }

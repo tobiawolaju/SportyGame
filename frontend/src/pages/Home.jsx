@@ -1,12 +1,16 @@
+// src/pages/Home.jsx
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
-import MatchCard from "../components/MatchCard";
 import Loading from "../components/Loading";
 import MatchFilterTabs from "../components/MatchFilterTabs";
 
+import UpcomingMatches from "../components/Scrims";
+import OngoingMatches from "../components/LiveBetting";
+import EndedMatches from "../components/Leaderboard";
+
 export default function Home({ user }) {
   const [matches, setMatches] = useState(null);
-  const [filter, setFilter] = useState("upcoming"); // tab filter
+  const [filter, setFilter] = useState("upcoming");
   const wallet = user?.wallet?.address;
 
   useEffect(() => {
@@ -34,13 +38,11 @@ export default function Home({ user }) {
     <div style={{ padding: "1.5rem" }}>
       <MatchFilterTabs active={filter} onChange={setFilter} />
 
-      {filteredMatches.length === 0 ? (
-        <p>No {filter} matches</p>
-      ) : (
-        filteredMatches.map((m) => (
-          <MatchCard key={m.match_id} match={m} onJoin={handleJoin} />
-        ))
+      {filter === "upcoming" && (
+        <UpcomingMatches matches={filteredMatches} onJoin={handleJoin} />
       )}
+      {filter === "ongoing" && <OngoingMatches matches={filteredMatches} />}
+      {filter === "ended" && <EndedMatches matches={filteredMatches} />}
     </div>
   );
 }

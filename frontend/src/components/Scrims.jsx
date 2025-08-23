@@ -1,20 +1,11 @@
-import { api } from "../lib/api";
-import MatchCard from "./MatchCard";
+// src/components/UpcomingMatches.jsx
 
-export default function Scrims({ user, matches }) {
-  const wallet = user?.wallet?.address;
+import MatchCard from "../components/MatchCard";
 
-  if (!matches) return <p>Loading scrims...</p>;
-
-  async function handleJoin(matchId) {
-    await api.joinMatch(wallet, matchId);
-  }
-
-  return matches.length === 0 ? (
-    <p>No matches available</p>
+export default function UpcomingMatches({ matches, onJoin }) {
+  return matches.length ? (
+    matches.map((m) => <MatchCard key={m.match_id} match={m} onJoin={onJoin} />)
   ) : (
-    matches.map(m => (
-      <MatchCard key={m.match_id} match={m} onJoin={handleJoin} />
-    ))
+    <p>No upcoming matches</p>
   );
 }
