@@ -41,7 +41,7 @@ export default function Home({ user }) {
       {filter === "upcoming" && (
         <UpcomingMatches matches={filteredMatches} onJoin={handleJoin} />
       )}
-      {filter === "ongoing" && <OngoingMatches matches={filteredMatches} />}
+      {filter === "fastbet" && <OngoingMatches matches={filteredMatches} />}
       {filter === "ended" && <EndedMatches matches={filteredMatches} />}
     </div>
   );
