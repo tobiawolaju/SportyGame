@@ -3,14 +3,13 @@ import { usePrivy } from "@privy-io/react-auth";
 import { Gamepad2, Trophy, User, Shield } from "lucide-react"; 
 
 const ADMINS = [
-  "0x1aac3dfa0aaecdae99697823f400e79902468b13",
-  "0xdef222",
+  "tobiawolaju21@gmail.com",
 ];
 
 export default function Layout() {
   const { authenticated, user } = usePrivy();
-  const wallet = user?.wallet?.address?.toLowerCase();
-  const isAdmin = ADMINS.includes(wallet);
+  const email = user?.google?.email.toLowerCase();
+  const isAdmin = ADMINS.includes(email);
 
   const baseStyle = {
     display: "flex",
