@@ -4,7 +4,7 @@ import MatchCard from "./MatchCard";
 export default function Scrims({ user, matches }) {
   const wallet = user?.wallet?.address;
 
-  if (!matches) return <p>Loading scrims...</p>;
+  if (!matches) return <p>Loading leaderboard...</p>;
 
   async function handleJoin(matchId) {
     await api.joinMatch(wallet, matchId);
