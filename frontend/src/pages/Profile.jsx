@@ -24,6 +24,12 @@ export default function Profile() {
   const [balance, setBalance] = useState(0);
   const [exportedKey, setExportedKey] = useState(null);
 
+
+  useEffect(() => {
+  console.log("privy user object:", user);
+}, [user]);
+
+
   useEffect(() => {
     if (!wallet) return;
     async function fetchData() {
@@ -97,24 +103,25 @@ export default function Profile() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <img
-            src="pfp.png"
-            alt="Profile"
-            style={{
-              width: "50px",
-              height: "50px",
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-          />
-          <div>
-            <h1 style={{ fontSize: "1rem", fontWeight: 700, margin: 0 }}>
-              Player 2368
-            </h1>
-            <p style={{ margin: 0, color: "#6b7280", fontSize: "0.7rem" }}>
-              Gamer / Battle Royale Enthusiast
-            </p>
-          </div>
+     <img
+  src="pfp.png"
+  alt="Profile"
+  style={{
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    objectFit: "cover",
+  }}
+/>
+<div>
+  <h1 style={{ fontSize: "1rem", fontWeight: 700, margin: 0 }}>
+    {user?.google?.name || "Unnamed Player"}
+  </h1>
+  <p style={{ margin: 0, color: "#6b7280", fontSize: "0.7rem" }}>
+    {user?.google?.email}
+  </p>
+</div>
+
         </div>
         <LogoutButton />
       </div>
