@@ -11,6 +11,9 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  LineChart,
+  Line,
+  Legend,
 } from "recharts";
 
 const gameList = ["PUBG", "CODM", "FreeFire"];
@@ -54,7 +57,7 @@ export default function Profile() {
 
   if (!me) return <Loading message="Loading profile..." />;
 
-  // stats graph data
+  // basic stats
   const statsData = [
     { name: "Wins", value: me.wins || 0 },
     { name: "Losses", value: me.losses || 0 },
@@ -63,6 +66,26 @@ export default function Profile() {
     me.wins && me.losses
       ? Math.round((me.wins / (me.wins + me.losses)) * 100)
       : 0;
+
+  // fake 7-day data generator
+  function generateFake7DayData(me, winRate) {
+    const days = Array.from({ length: 7 }, (_, i) => `Day ${i + 1}`);
+    const avgEarnings = (me.earnings || 0) / 7;
+    const rankNumeric =
+      typeof me.rank === "number"
+        ? me.rank
+        : 0; // assume numeric rank, fallback 0
+    const avgRank = rankNumeric / 7;
+
+    return days.map((day, idx) => ({
+      day,
+      winRate: Math.min(winRate, Math.round(((idx + 1) / 7) * winRate)),
+      earnings: Math.round(avgEarnings * (idx + 1)),
+      rank: Math.round(avgRank * (idx + 1)),
+    }));
+  }
+
+  const sevenDayData = generateFake7DayData(me, winRate);
 
   return (
     <div
@@ -153,21 +176,46 @@ export default function Profile() {
             marginBottom: "1.5rem",
           }}
         >
-          <div><strong>Win Rate:</strong> {winRate}%</div>
-          <div><strong>Rank:</strong> {me.rank || "Unranked"}</div>
-          <div><strong>Earnings:</strong> {me.earnings || 0} USDT</div>
+          <div>
+            <strong>Win Rate:</strong> {winRate}%
+          </div>
+          <div>
+            <strong>Rank:</strong> {me.rank || "Unranked"}
+          </div>
+          <div>
+            <strong>Earnings:</strong> {me.earnings || 0} USDT
+          </div>
         </div>
 
-        {/* bar chart wins vs losses */}
-        <div style={{ width: "100%", height: 240 }}>
+    
+        {/* line chart over 7 days */}
+        <div style={{ width: "100%", height: 300 }}>
           <ResponsiveContainer>
-            <BarChart data={statsData}>
+            <LineChart data={sevenDayData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis allowDecimals={false} />
+              <XAxis dataKey="day" />
+              <YAxis />
               <Tooltip />
-              <Bar dataKey="value" fill="#111827" radius={[6,6,0,0]} />
-            </BarChart>
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="winRate"
+                stroke="green"
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="earnings"
+                stroke="blue"
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="rank"
+                stroke="black"
+                strokeWidth={2}
+              />
+            </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
