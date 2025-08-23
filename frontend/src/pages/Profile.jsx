@@ -4,16 +4,14 @@ import { api } from "../lib/api";
 import Loading from "../components/Loading";
 import LogoutButton from "../components/LogoutButton";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
   LineChart,
   Line,
   Legend,
+  XAxis,
+  YAxis,
 } from "recharts";
 
 const gameList = ["PUBG", "CODM", "FreeFire"];
@@ -57,31 +55,24 @@ export default function Profile() {
 
   if (!me) return <Loading message="Loading profile..." />;
 
-  // basic stats
-  const statsData = [
-    { name: "Wins", value: me.wins || 0 },
-    { name: "Losses", value: me.losses || 0 },
-  ];
   const winRate =
     me.wins && me.losses
       ? Math.round((me.wins / (me.wins + me.losses)) * 100)
       : 0;
 
-  // fake 7-day data generator
+  // fake but varied 7-day data
   function generateFake7DayData(me, winRate) {
     const days = Array.from({ length: 7 }, (_, i) => `Day ${i + 1}`);
-    const avgEarnings = (me.earnings || 0) / 7;
-    const rankNumeric =
-      typeof me.rank === "number"
-        ? me.rank
-        : 0; // assume numeric rank, fallback 0
-    const avgRank = rankNumeric / 7;
+    const avgEarnings = (me.earnings || 100) / 7;
+    const baseRank = typeof me.rank === "number" ? me.rank : 20;
 
     return days.map((day, idx) => ({
       day,
-      winRate: Math.min(winRate, Math.round(((idx + 1) / 7) * winRate)),
-      earnings: Math.round(avgEarnings * (idx + 1)),
-      rank: Math.round(avgRank * (idx + 1)),
+      winRate: Math.round(
+        winRate * (0.7 + Math.random() * 0.6) * ((idx + 1) / 7)
+      ),
+      earnings: Math.round(avgEarnings * (idx + 1) * (0.8 + Math.random() * 0.4)),
+      rank: Math.round(baseRank - idx + Math.random() * 5),
     }));
   }
 
@@ -105,40 +96,76 @@ export default function Profile() {
           marginBottom: "2rem",
         }}
       >
-        <h1 style={{ fontSize: "1.75rem", fontWeight: 700 }}>My Profile</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <img
+            src="pfp.png"
+            alt="Profile"
+            style={{
+              width: "50px",
+              height: "50px",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
+          />
+          <div>
+            <h1 style={{ fontSize: "1rem", fontWeight: 700, margin: 0 }}>
+              Player 2368
+            </h1>
+            <p style={{ margin: 0, color: "#6b7280", fontSize: "0.7rem" }}>
+              Gamer / Battle Royale Enthusiast
+            </p>
+          </div>
+        </div>
         <LogoutButton />
       </div>
 
       {/* wallet */}
       <div
         style={{
-          padding: "1.5rem",
+          padding: "0.3rem",
           borderRadius: "12px",
           background: "#fff",
           marginBottom: "2rem",
+          color: "#573861ff",
           boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
         }}
       >
-        <p style={{ wordBreak: "break-all", margin: "0 0 0.5rem" }}>
-          <strong>Wallet:</strong> {wallet}
-        </p>
-        <p style={{ margin: "0 0 0.5rem" }}>
-          <strong>Balance:</strong> {balance} USDT
-        </p>
-        <button
-          onClick={handleExportWallet}
+        <p
           style={{
-            padding: "0.6rem 1.25rem",
-            borderRadius: "8px",
-            border: "none",
-            background: "#111827",
-            color: "#fff",
-            fontWeight: 600,
-            cursor: "pointer",
+            fontSize: "1rem",
+            wordBreak: "break-all",
+            margin: "0 0 0.5rem",
           }}
         >
-          Export Wallet
-        </button>
+          <strong>Address:</strong> {wallet}
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "1rem",
+          }}
+        >
+          <p style={{ margin: 0, fontSize: "1rem", fontWeight: 600 }}>
+            {balance} MON
+          </p>
+          <button
+            onClick={handleExportWallet}
+            style={{
+              padding: "12px 30px",
+              backgroundColor: "#f7e4ffff",
+              color: "#000",
+              border: "none",
+              borderRadius: "50px",
+              cursor: "pointer",
+            }}
+          >
+            Export Wallet
+          </button>
+        </div>
+
         {exportedKey && (
           <div
             style={{
@@ -156,40 +183,17 @@ export default function Profile() {
         )}
       </div>
 
-      {/* stats */}
+      {/* stats chart */}
       <div
         style={{
-          padding: "1.5rem",
+          padding: "0rem",
           borderRadius: "12px",
-          background: "#fff",
+          background: "#fffcf4ff",
           marginBottom: "2rem",
           boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
         }}
       >
-        <h3 style={{ margin: "0 0 1rem" }}>Stats</h3>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(160px,1fr))",
-            gap: "1rem",
-            marginBottom: "1.5rem",
-          }}
-        >
-          <div>
-            <strong>Win Rate:</strong> {winRate}%
-          </div>
-          <div>
-            <strong>Rank:</strong> {me.rank || "Unranked"}
-          </div>
-          <div>
-            <strong>Earnings:</strong> {me.earnings || 0} USDT
-          </div>
-        </div>
-
-    
-        {/* line chart over 7 days */}
-        <div style={{ width: "100%", height: 300 }}>
+        <div style={{ width: "100%", height: 400 }}>
           <ResponsiveContainer>
             <LineChart data={sevenDayData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -200,19 +204,19 @@ export default function Profile() {
               <Line
                 type="monotone"
                 dataKey="winRate"
-                stroke="green"
+                stroke="#16a34a"
                 strokeWidth={2}
               />
               <Line
                 type="monotone"
                 dataKey="earnings"
-                stroke="blue"
+                stroke="#2563eb"
                 strokeWidth={2}
               />
               <Line
                 type="monotone"
                 dataKey="rank"
-                stroke="black"
+                stroke="#111827"
                 strokeWidth={2}
               />
             </LineChart>
