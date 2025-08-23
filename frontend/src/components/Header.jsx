@@ -4,6 +4,7 @@ import { Gamepad2, Trophy, User, Shield } from "lucide-react";
 
 const ADMINS = [
   "tobiawolaju21@gmail.com",
+  "ibkacc1@gmail.com"
 ];
 
 export default function Layout() {

@@ -10,9 +10,10 @@ import Admin from "./pages/Admin";
 
 
 const ADMINS = [
-  "0x1aac3dfa0aaecdae99697823f400e79902468b13",
-  "0xdef222"
+  "tobiawolaju21@gmail.com",
+  "ibkacc1@gmail.com"
 ];
+
 
 
 function App() {
