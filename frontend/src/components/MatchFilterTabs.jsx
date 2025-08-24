@@ -2,7 +2,7 @@
 import React from "react";
 
 export default function MatchFilterTabs({ active, onChange }) {
-  const tabs = ["Upcoming", "FastBet", "Ended"];
+  const tabs = ["Scrims", "FastBet", "Rankings"];
 
   return (
     <div
