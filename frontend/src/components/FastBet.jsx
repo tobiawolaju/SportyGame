@@ -16,10 +16,10 @@ export default function OngoingMatches({ matches }) {
         }}
       >
         <h3>{m.title}</h3>
-        <p>Ongoing… live scores soon</p>
+        <p>this is a bet sample</p>
       </div>
     ))
   ) : (
-    <p>No ongoing matches</p>
+    <p>Betting disabled</p>
   );
 }

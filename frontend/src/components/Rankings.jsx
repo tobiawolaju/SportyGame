@@ -16,10 +16,10 @@ export default function EndedMatches({ matches }) {
         }}
       >
         <h3>{m.title}</h3>
-        <p>Ended. Winners: TBD</p>
+        <p>Rank is working</p>
       </div>
     ))
   ) : (
-    <p>No ended matches</p>
+    <p>No Rankings</p>
   );
 }
