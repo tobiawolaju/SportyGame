@@ -5,8 +5,8 @@ import Loading from "../components/Loading";
 import MatchFilterTabs from "../components/MatchFilterTabs";
 
 import UpcomingMatches from "../components/Scrims";
-import OngoingMatches from "../components/LiveBetting";
-import EndedMatches from "../components/Leaderboard";
+import OngoingMatches from "../components/FastBet";
+import EndedMatches from "../components/Rankings";
 
 export default function Home({ user }) {
   const [matches, setMatches] = useState(null);
@@ -15,34 +15,34 @@ export default function Home({ user }) {
 
   useEffect(() => {
     async function fetchMatches() {
-      const data = await api.getMatches();
+      let data;
+      if (filter === "upcoming") {
+        data = await api.getUpcomingMatches();
+      } else if (filter === "fastbet") {
+        data = await api.getFastBetMatches();
+      } else if (filter === "rankings") {
+        data = await api.getRankings();
+      }
       setMatches(data);
     }
     fetchMatches();
-  }, []);
+  }, [filter]);
 
   async function handleJoin(matchId) {
-    try {
-      await api.joinMatch(wallet, matchId);
-      return true;
-    } catch (err) {
-      throw err;
-    }
+    await api.joinMatch(wallet, matchId);
   }
 
   if (!matches) return <Loading message="Fetching matches..." />;
-
-  const filteredMatches = matches.filter((m) => m.status === filter);
 
   return (
     <div style={{ padding: "1.5rem" }}>
       <MatchFilterTabs active={filter} onChange={setFilter} />
 
       {filter === "upcoming" && (
-        <UpcomingMatches matches={filteredMatches} onJoin={handleJoin} />
+        <UpcomingMatches matches={matches} onJoin={handleJoin} />
       )}
-      {filter === "fastbet" && <OngoingMatches matches={filteredMatches} />}
-      {filter === "ended" && <EndedMatches matches={filteredMatches} />}
+      {filter === "fastbet" && <OngoingMatches matches={matches} />}
+      {filter === "rankings" && <EndedMatches matches={matches} />}
     </div>
   );
 }

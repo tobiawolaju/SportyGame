@@ -1,40 +1,34 @@
 // src/components/MatchFilterTabs.jsx
 import React from "react";
 
-export default function MatchFilterTabs({ active, onChange }) {
-  const tabs = ["Upcoming", "FastBet", "Rankings"];
+  const tabs = [
+  { key: "upcoming", label: "Upcoming" },
+  { key: "fastbet", label: "FastBet" },
+  { key: "rankings", label: "Rankings" },
+];
 
+export default function MatchFilterTabs({ active, onChange }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center", // center the tabs
-        gap: "1rem",
-        marginBottom: "1rem",
-        backgroundColor: "#ffdc742b", // light background
-        padding: "0.5rem 0",
-        borderRadius: "25px",
-      }}
-    >
-      {tabs.map((tab) => (
+    <div style={{ display:"flex", justifyContent:"center", gap:"1rem", marginBottom:"1rem",
+                  backgroundColor:"#ffdc742b", padding:"0.5rem 0", borderRadius:"25px" }}>
+      {tabs.map(({ key, label }) => (
         <button
-          key={tab}
-          onClick={() => onChange(tab.toLowerCase())}
+          key={key}
+          onClick={() => onChange(key)}
           style={{
-            padding: "0.5rem 1rem",
-            borderRadius: "20px",
-            border: "none",
-            cursor: "pointer",
-            backgroundColor: active === tab.toLowerCase() ? "#ffd574f1" : "#ffdc7478",
-            color: active === tab.toLowerCase() ? "#43274aff" : "#57006497",
-            fontWeight: "bold",
-            transition: "0.2s",
+            padding:"0.5rem 1rem",
+            borderRadius:"20px",
+            border:"none",
+            cursor:"pointer",
+            backgroundColor: active === key ? "#ffd574f1" : "#ffdc7478",
+            color: active === key ? "#43274aff" : "#57006497",
+            fontWeight:"bold",
+            transition:"0.2s",
           }}
         >
-          {tab}
+          {label}
         </button>
       ))}
     </div>
   );
 }
-

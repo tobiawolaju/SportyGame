@@ -11,6 +11,10 @@ async function request(path, method = "GET", body) {
 export const api = {
   // matches
   getMatches: () => request("/matches"),
+  getUpcomingMatches: () => request("/matches"),
+  getFastBetMatches: () => request("/matches/fastbet"),
+  getRankings: () => request("/matches/rankings"),
+
   createMatch: (data) => request("/matches", "POST", data),
 
   // users
