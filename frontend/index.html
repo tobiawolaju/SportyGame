@@ -4,18 +4,22 @@
     <meta charset="utf-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using Vite + React"
-    />
+
+    <!-- mobile browser / PWA chrome color -->
+    <meta name="theme-color" content="#d8a8ff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="description" content="Web site created using Vite + React" />
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
-    <title> Privy React App (Vite)</title>
+
+    <title>Privy React App (Vite)</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <script type="module" src="/src/index.jsx"></script>
+    <!-- entry point must match your vite setup -->
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
