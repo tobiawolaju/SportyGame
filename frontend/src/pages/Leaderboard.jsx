@@ -238,8 +238,8 @@ export default function MyScrims() {
         onClick={() => setWinAmount(50)}
       style={{
         padding: "12px 30px",
-        backgroundColor: "#e3a0ffff",
-        color: "#000000ff",
+        backgroundColor: "#f5deffff",
+        color: "#ffffffff",
         border: "none",
         borderRadius: "50px",
         fontSize:'xx-large',
