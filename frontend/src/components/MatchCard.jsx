@@ -107,7 +107,7 @@ export default function MatchCard({ match, onJoin }) {
           cursor: status === "joined" ? "default" : "pointer",
           background: status === "joined" ? "#a78bfa" : "#e5e7eb",
           color: "#000",
-          fontSize: "0.85rem",
+          fontSize: "0.8rem",
           fontWeight: "600",
           transition: "0.2s",
         }}
@@ -119,7 +119,7 @@ export default function MatchCard({ match, onJoin }) {
         }
       >
         {status === "idle" && "JOIN"}
-        {status === "joining" && "PROCESSING…"}
+        {status === "joining" && "...'."}
         {status === "joined" && "JOINED"}
       </button>
     </div>

@@ -1,5 +1,9 @@
 import { useState } from "react";
+import CongratulationsModal from "../components/congrats";
 
+
+
+// dummy data
 const dummyData = {
   scrims: [
     {
@@ -83,6 +87,7 @@ const dummyData = {
   ],
 };
 
+// tab bar component
 const TabBar = ({ options, active, onChange }) => (
   <div
     style={{
@@ -119,6 +124,7 @@ const TabBar = ({ options, active, onChange }) => (
 export default function MyScrims() {
   const [mainTab, setMainTab] = useState("scrims");
   const [filter, setFilter] = useState("all");
+  const [winAmount, setWinAmount] = useState(null); // for modal
 
   const data = dummyData[mainTab].filter((item) => {
     if (filter === "all") return true;
@@ -127,6 +133,7 @@ export default function MyScrims() {
 
   return (
     <div style={{ padding: "1rem", fontFamily: "sans-serif" }}>
+  
       {/* Main Tabs */}
       <TabBar
         options={[
@@ -219,6 +226,29 @@ export default function MyScrims() {
           </div>
         )}
       </div>
+
+      {/* congrats modal */}
+      <CongratulationsModal
+        amount={winAmount}
+        onClose={() => setWinAmount(null)}
+      />
+
+          {/* test button for modal */}
+      <button
+        onClick={() => setWinAmount(50)}
+      style={{
+        padding: "12px 30px",
+        backgroundColor: "#e3a0ffff",
+        color: "#000000ff",
+        border: "none",
+        borderRadius: "50px",
+        fontSize:'xx-large',
+        width:'100%',
+      }}
+      >
+        Test Popup
+      </button>
+
     </div>
   );
 }

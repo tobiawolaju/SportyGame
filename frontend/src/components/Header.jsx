@@ -103,7 +103,7 @@ export default function Layout() {
                     strokeWidth={isActive ? 3 : 2}
                     color={isActive ? "black" : "#a9a9a9"}
                   />
-                  <span>My Scrims</span>
+                  <span>Open Bets</span>
                 </>
               )}
             </NavLink>
